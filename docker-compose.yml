@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  mysql-container:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=campaign_db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    ports:
+      - 3308:3306
+
+  app:
+    image: campaign-container
+
+    ports:
+      - 8090:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/campaign_db?autoReconnect=true&useSSL=false
+    depends_on:
+      - mysql-container
